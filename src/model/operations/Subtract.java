@@ -25,7 +25,7 @@ public class Subtract extends Operation {
         Num operandA = iterator.next();
         Num operandB = iterator.next();
         BigDecimal calc = operandA.getNumber();
-        calc.subtract(operandB.getNumber());
+        calc = calc.subtract(operandB.getNumber());
         Num result = new Num();
         result.setNumber(calc);
         return result;

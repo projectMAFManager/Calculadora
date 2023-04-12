@@ -28,7 +28,7 @@ public class Root extends Operation {
         }
 
         BigDecimal calc = operandA.getNumber();
-        calc.pow((1 / operandB.getNumber().intValue())); //a^(1/b)
+        calc = calc.pow((1 / operandB.getNumber().intValue())); //a^(1/b)
         Num result = new Num();
         result.setNumber(calc);
         return result;

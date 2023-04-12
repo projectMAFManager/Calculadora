@@ -24,7 +24,7 @@ public class Division extends Operation {
         Num operandA = iterator.next();
         Num operandB = iterator.next();
         BigDecimal calc = operandA.getNumber();
-        calc.divide(operandB.getNumber());
+        calc = calc.divide(operandB.getNumber());
         Num result = new Num();
         result.setNumber(calc);
         return result;

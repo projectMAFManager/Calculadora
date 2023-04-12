@@ -22,7 +22,7 @@ public class Module extends Operation {
         Iterator<Num> iterator = this.operands.iterator();
         Num operandA = iterator.next();
         Num operandB = iterator.next();
-        operandA.getNumber().remainder(operandB.getNumber());
+        operandA.setNumber(operandA.getNumber().remainder(operandB.getNumber()));
         return operandA;
     }
 

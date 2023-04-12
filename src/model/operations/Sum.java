@@ -25,7 +25,7 @@ public class Sum extends Operation {
         Num operandA = iterator.next();
         Num operandB = iterator.next();
         BigDecimal calc = operandA.getNumber();
-        calc.add(operandB.getNumber());
+        calc = calc.add(operandB.getNumber());
         Num result = new Num();
         result.setNumber(calc);
         return result;
