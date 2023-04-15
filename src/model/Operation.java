@@ -1,6 +1,5 @@
 package model;
 
-import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,12 +12,13 @@ public abstract class Operation implements Expressible {
         operands = new LinkedList<>();
     }
 
-    public void pushOperand(Num operand){
+    public void pushOperand(Num operand) throws Exception {
+        if(operand == null){
+            throw new Exception("[Operation.pushOperand ERROR] No se puede añadir un operando vacío");
+        }else if(operand.getNumber() == null){
+            throw new Exception("[Operation.pushOperand ERROR] No se puede añadir un operando vacío");
+        }
         operands.add(operand);
-    }
-
-    public boolean removeOperand(Num operand){
-        return operands.remove(operand);
     }
 
     public abstract Num getResult() throws Exception;

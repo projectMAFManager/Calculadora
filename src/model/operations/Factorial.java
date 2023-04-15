@@ -1,11 +1,10 @@
 package model.operations;
 
-import model.Num;
-import model.Operation;
-import model.Symbol;
+import model.*;
+import model.exceptions.SyntaxErrorException;
+import model.exceptions.SyntaxErrorMessage;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Iterator;
 
 public class Factorial extends Operation {
@@ -19,14 +18,14 @@ public class Factorial extends Operation {
     @Override
     public Num getResult() throws Exception {
         if(this.operands.size() != this.operandsRequired){
-            throw new Exception("Número de operadores inválido");
+            throw new SyntaxErrorException(SyntaxErrorMessage.WRONG_NUM_OF_OPERANDS.getMessage());
         }
         Iterator<Num> iterator = this.operands.iterator();
         Num operandA = iterator.next();
         if(operandA.getNumber().scale() > 0) {
-            throw new Exception("No se puede calcular el factorial de un número decimal");
-        }else if(operandA.getNumber().compareTo(BigDecimal.ZERO) == 1){ // operandA > 0
-            throw new Exception("No se puede calcular el factorial de un número < 1");
+            throw new ArithmeticException("No se puede calcular el factorial de un número decimal");
+        }else if(!(operandA.getNumber().compareTo(BigDecimal.ZERO) > 0)){ // operandA > 0
+            throw new ArithmeticException("No se puede calcular el factorial de un número < 1");
         }
 
         operandA.setNumber(BigDecimal.valueOf(calculateFactorial(operandA.getNumber().intValue())));
@@ -48,5 +47,16 @@ public class Factorial extends Operation {
         } else {
             return calculateFactorial(number - 1);
         }
+    }
+
+    @Override
+    public String toString() {
+        if(this.operands.isEmpty()){
+            return symbol.getSymbolConsole();
+        }
+        String result = "";
+        result = result.concat(operands.get(0).toString());
+        result = result.concat(symbol.getSymbolConsole());
+        return result;
     }
 }

@@ -1,10 +1,9 @@
 package model.operations;
 
-import model.Num;
-import model.Operation;
-import model.Symbol;
+import model.*;
+import model.exceptions.SyntaxErrorException;
+import model.exceptions.SyntaxErrorMessage;
 
-import javax.print.DocFlavor;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
@@ -18,13 +17,13 @@ public class Root extends Operation {
     @Override
     public Num getResult() throws Exception {
         if(this.operands.size() != this.operandsRequired){
-            throw new Exception("Número de operadores inválido");
+            throw new SyntaxErrorException(SyntaxErrorMessage.WRONG_NUM_OF_OPERANDS.getMessage());
         }
         Iterator<Num> iterator = this.operands.iterator();
         Num operandA = iterator.next();
         Num operandB = iterator.next();
         if(operandB.getNumber().scale() > 0){
-            throw new Exception("El índice de una raíz no puede ser decimal");
+            throw new ArithmeticException("El índice de una raíz no puede ser decimal");
         }
 
         BigDecimal calc = operandA.getNumber();
@@ -41,5 +40,17 @@ public class Root extends Operation {
         }else{
             return 0;
         }
+    }
+
+    @Override
+    public String toString() {
+        if(this.operands.isEmpty()){
+            return symbol.getSymbolConsole();
+        }
+        String result = "";
+        result = result.concat(operands.get(0).toString());
+        result = result.concat(symbol.getSymbolConsole());
+        result = result.concat(operands.get(0).toString());
+        return result;
     }
 }

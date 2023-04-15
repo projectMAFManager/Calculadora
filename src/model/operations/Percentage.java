@@ -1,10 +1,11 @@
 package model.operations;
 
-import model.Num;
-import model.Operation;
-import model.Symbol;
+import model.*;
+import model.exceptions.SyntaxErrorException;
+import model.exceptions.SyntaxErrorMessage;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Iterator;
 
 public class Percentage extends Operation {
@@ -15,14 +16,14 @@ public class Percentage extends Operation {
     }
 
     @Override
-    public Num getResult() throws Exception {
+    public Num getResult() throws Exception{
         if(this.operands.size() != this.operandsRequired){
-            throw new Exception("Número de operadores inválido");
+            throw new SyntaxErrorException(SyntaxErrorMessage.WRONG_NUM_OF_OPERANDS.getMessage());
         }
 
         Iterator<Num> iterator = this.operands.iterator();
         Num operandA = iterator.next();
-        operandA.setNumber(operandA.getNumber().divide(BigDecimal.valueOf(100)));
+        operandA.setNumber(operandA.getNumber().divide(BigDecimal.valueOf(100), RoundingMode.HALF_DOWN));
         return operandA;
     }
 
@@ -33,5 +34,16 @@ public class Percentage extends Operation {
         }else{
             return 0;
         }
+    }
+
+    @Override
+    public String toString() {
+        if(this.operands.isEmpty()){
+            return symbol.getSymbolConsole();
+        }
+        String result = "";
+        result = result.concat(operands.get(0).toString());
+        result = result.concat(symbol.getSymbolConsole());
+        return result;
     }
 }
